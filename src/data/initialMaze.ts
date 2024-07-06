@@ -1,4 +1,6 @@
-const iniitalMaze = [
+import { Maze } from "../types";
+
+const iniitalMaze: Maze = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 1, 0, 1, 1, 1, 1, 1, 0],
   [0, 1, 1, 0, 1, 1, 0, 0, 1, 0],
@@ -9,7 +11,6 @@ const iniitalMaze = [
   [0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
   [0, 1, 1, 0, 1, 0, 0, 1, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
-
+];
 
 export default iniitalMaze;
