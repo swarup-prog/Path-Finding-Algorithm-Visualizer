@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Cell } from "../../types";
 
 interface IMazeState {
-  start: [number, number];
-  end: [number, number];
+  start: Cell;
+  end: Cell;
   setMode: string;
   isSetMode: boolean;
 }
@@ -19,10 +20,10 @@ export const mazeStateSlice = createSlice({
   name: "mazeState",
   initialState,
   reducers: {
-    setStart: (state, action: PayloadAction<[number, number]>) => {
+    setStart: (state, action: PayloadAction<Cell>) => {
       state.start = action.payload;
     },
-    setEnd: (state, action: PayloadAction<[number, number]>) => {
+    setEnd: (state, action: PayloadAction<Cell>) => {
       state.end = action.payload;
     },
     setSetMode: (state, action: PayloadAction<string>) => {
@@ -38,7 +39,7 @@ export const mazeStateSlice = createSlice({
   },
 });
 
-export const { setStart, setEnd, setSetMode, setIsSetMode, clear } = mazeStateSlice.actions;
+export const { setStart, setEnd, setSetMode, setIsSetMode, clear } =
+  mazeStateSlice.actions;
 
 export default mazeStateSlice.reducer;
-
