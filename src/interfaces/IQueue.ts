@@ -1,7 +1,7 @@
 export interface IQueue<T> {
-  enqueue: (item: T) => void;
-  dequeue: () => T | undefined;
-  peek: () => T | undefined;
-  isEmpty: () => boolean;
-  size: number;
+  enqueue(item: T): void;
+  dequeue(): T | undefined;
+  peek(): T | undefined;
+  size(): number;
+  isEmpty(): boolean;
 }
