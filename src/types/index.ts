@@ -1,2 +1,2 @@
-export type Maze = number[][];
 export type Cell = [number, number];
+export type Maze = number[][];
