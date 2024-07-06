@@ -1,3 +1,5 @@
-export const breadthFirstSearch = () => {};
+export const getNeighbours = () => {};
 
-export const depthFirstSearch = () => {};
+export const isWall = (): boolean => {
+  return false;
+};
