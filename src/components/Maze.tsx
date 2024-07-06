@@ -40,14 +40,16 @@ const Maze = () => {
               key={cellIndex}
               className={`w-[60px] h-[60px] border-[1px] border-black flex justify-center items-center
               ${
+                !start.includes(0) &&
                 String(start) === `${[rowIndex, cellIndex]}`
                   ? "bg-green-500"
-                  : String(end) === `${[rowIndex, cellIndex]}`
+                  : !end.includes(0) &&
+                    String(end) === `${[rowIndex, cellIndex]}`
                   ? "bg-red-500"
                   : ""
               }
                 ${isSetMode ? "cursor-pointer hover:bg-orange-500" : ""}
-                ${cell === 0 ? "bg-black text-white" : "bg-white  text-black"}
+                ${cell === 0 ? "bg-black text-white" : "text-black"}
                 `}
             >
               {rowIndex},{cellIndex}
