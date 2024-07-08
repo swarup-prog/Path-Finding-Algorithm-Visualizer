@@ -32,14 +32,14 @@ export const mazeStateSlice = createSlice({
     setIsSetMode: (state, action: PayloadAction<boolean>) => {
       state.isSetMode = action.payload;
     },
-    clear: (state) => {
+    clearMazeState: (state) => {
       state.start = [0, 0];
       state.end = [0, 0];
     },
   },
 });
 
-export const { setStart, setEnd, setSetMode, setIsSetMode, clear } =
+export const { setStart, setEnd, setSetMode, setIsSetMode, clearMazeState } =
   mazeStateSlice.actions;
 
 export default mazeStateSlice.reducer;
