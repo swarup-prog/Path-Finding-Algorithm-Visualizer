@@ -1,5 +1,5 @@
 import { Queue } from "../classes";
-import { getNeighbours, isVisited } from "../helpers";
+import { compareArrays, getNeighbours, isVisited } from "../helpers";
 import { Cell, Maze } from "../types";
 
 export const breadthFirstSearch = (
@@ -18,7 +18,10 @@ export const breadthFirstSearch = (
 
     visited.push(current);
 
-    if (current === end) return visited;
+    if (compareArrays(current, end)) {
+      console.log("Found the end!");
+      break;
+    }
 
     const neighbours = getNeighbours(maze, current);
 
@@ -30,6 +33,7 @@ export const breadthFirstSearch = (
     }
   }
 
+  console.log(visited);
   return visited;
 };
 
