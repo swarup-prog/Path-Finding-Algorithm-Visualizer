@@ -1,9 +1,14 @@
 import { IStack } from "../interfaces/IStack";
+import { Cell } from "../types";
 
-class Stack<T> implements IStack<T> {
+class Stack<T extends Cell> implements IStack<T> {
   private storage: T[] = [];
 
   constructor(private capacity: number = Infinity) {}
+
+  getStorage(): T[] {
+    return this.storage;
+  }
 
   push(item: T): void {
     if (this.size() === this.capacity) {
@@ -26,7 +31,11 @@ class Stack<T> implements IStack<T> {
 
   isEmpty(): boolean {
     return this.storage.length === 0;
-  };
+  }
+
+  has(item: T): boolean {
+    return this.storage.some((i) => i[0] === item[0] && i[1] === item[1]);
+  }
 }
 
 export default Stack;
