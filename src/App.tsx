@@ -15,6 +15,8 @@ import {
   setResult,
 } from "./features/algorithmState/algorithmStateSlice";
 import Dropdown from "./components/Dropdown";
+import { Cell } from "./types";
+import { compareArrays } from "./helpers";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -39,9 +41,27 @@ function App() {
       return;
     }
 
-    const result = depthFirstSearch(iniitalMaze, start, end);
-    console.log("Result: ", JSON.stringify(result));
+    if (compareArrays(start, end)) {
+      setMessage("Start and end points can't be the same!");
+      return;
+    }
+
+    if (compareArrays(start, [0, 0]) || compareArrays(end, [0, 0])) {
+      setMessage("Please set valid start or end points!");
+      return;
+    }
+
+    let result: Cell[] = [];
+
+    if (algorithm === "BFS") {
+      result = breadthFirstSearch(iniitalMaze, start, end);
+      console.log("Result: ", JSON.stringify(result));
+    } else if (algorithm === "DFS") {
+      result = depthFirstSearch(iniitalMaze, start, end);
+      console.log("Result: ", JSON.stringify(result));
+    }
     dispatch(setResult(result));
+    return;
   };
 
   const handleReset = () => {
