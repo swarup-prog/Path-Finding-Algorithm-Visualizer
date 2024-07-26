@@ -7,6 +7,7 @@ import {
   setSetMode,
   setStart,
 } from "../features/mazeState/mazeStateSlice";
+import { compareArrays } from "../helpers";
 
 const Maze = () => {
   const { setMode, isSetMode, start, end } = useAppSelector(
@@ -36,11 +37,12 @@ const Maze = () => {
   useEffect(() => {
     if (result.length > 0) {
       result.forEach((cell, index) => {
+        if (compareArrays(start, cell) || compareArrays(cell, end)) return;
         setTimeout(() => {
           const [rowIndex, cellIndex] = cell;
           cellsRef.current[rowIndex][cellIndex].style.backgroundColor =
             "yellow";
-        }, index * 500);
+        }, index * 200);
       });
     }
   }, [result]);
@@ -73,7 +75,7 @@ const Maze = () => {
                 ${cell === 0 ? "bg-black text-white" : "text-black"}
                 `}
             >
-              {rowIndex},{cellIndex}
+              {/* {rowIndex},{cellIndex} */}
             </div>
           );
         })}
