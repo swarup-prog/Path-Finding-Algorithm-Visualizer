@@ -9,7 +9,7 @@ interface IAlgorithmState {
 }
 
 const initialState: IAlgorithmState = {
-  algorithm: "",
+  algorithm: "BFS",
   isVisualizing: false,
   result: [],
 };
