@@ -4,10 +4,9 @@ interface IButtonProps {
   onClick: () => void;
 }
 
-const Button = ({ title, color = "orange", onClick }: IButtonProps) => {
+const Button = ({ title, color = "red", onClick }: IButtonProps) => {
   return (
     <button
-      // style={{ backgroundColor: color ?? "" }}
       className={`bg-${color}-500 hover:bg-${color}-700 text-white font-bold py-2 px-4 rounded`}
       onClick={onClick}
     >
