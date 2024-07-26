@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import initialMaze from "../data/initialMaze";
 import {
@@ -12,6 +13,8 @@ const Maze = () => {
     (state) => state.mazeState
   );
   const dispatch = useAppDispatch();
+  const { result } = useAppSelector((state) => state.algorithmState);
+  const cellsRef = useRef<HTMLDivElement[][]>([]);
 
   const handleCellClick = (cellIndex: [number, number], cellValue: number) => {
     if (!isSetMode) return;
@@ -30,12 +33,30 @@ const Maze = () => {
     dispatch(setIsSetMode(false));
   };
 
+  useEffect(() => {
+    if (result.length > 0) {
+      result.forEach((cell, index) => {
+        setTimeout(() => {
+          const [rowIndex, cellIndex] = cell;
+          cellsRef.current[rowIndex][cellIndex].style.backgroundColor =
+            "yellow";
+        }, index * 500);
+      });
+    }
+  }, [result]);
+
   return initialMaze.map((row, rowIndex) => {
     return (
       <div key={rowIndex} className="flex">
         {row.map((cell, cellIndex) => {
+          // Initialize the ref array if it's not already initialized
+          if (!cellsRef.current[rowIndex]) {
+            cellsRef.current[rowIndex] = [];
+          }
+
           return (
             <div
+              ref={(el) => (cellsRef.current[rowIndex][cellIndex] = el!)}
               onClick={() => handleCellClick([rowIndex, cellIndex], cell)}
               key={cellIndex}
               className={`w-[60px] h-[60px] border-[1px] border-black flex justify-center items-center
