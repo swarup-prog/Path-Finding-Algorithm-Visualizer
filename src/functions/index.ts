@@ -1,4 +1,4 @@
-import { Queue } from "../classes";
+import { Queue, Stack } from "../classes";
 import { compareArrays, getNeighbours, isVisited } from "../helpers";
 import { Cell, Maze } from "../types";
 
@@ -7,7 +7,6 @@ export const breadthFirstSearch = (
   start: Cell,
   end: Cell
 ): Cell[] => {
-  console.log("Search started!");
   const queue = new Queue<Cell>();
   const visited: Cell[] = [];
 
@@ -18,10 +17,7 @@ export const breadthFirstSearch = (
 
     visited.push(current);
 
-    if (compareArrays(current, end)) {
-      console.log("Found the end!");
-      break;
-    }
+    if (compareArrays(current, end)) break;
 
     const neighbours = getNeighbours(maze, current);
 
@@ -33,8 +29,35 @@ export const breadthFirstSearch = (
     }
   }
 
-  console.log(visited);
   return visited;
 };
 
-export const depthFirstSearch = (maze: Maze, start: Cell, end: Cell) => {};
+export const depthFirstSearch = (
+  maze: Maze,
+  start: Cell,
+  end: Cell
+): Cell[] => {
+  const stack = new Stack<Cell>();
+  const visited: Cell[] = [];
+
+  stack.push(start);
+
+  while (!stack.isEmpty()) {
+    const current = stack.pop() as Cell;
+
+    visited.push(current);
+
+    if (compareArrays(current, end)) break;
+
+    const neighbours = getNeighbours(maze, current);
+
+    for (let neighbour of neighbours) {
+      const neighbourVisited = isVisited(neighbour, visited);
+      if (!neighbourVisited && !stack.has(neighbour)) {
+        stack.push(neighbour);
+      }
+    }
+  }
+
+  return visited;
+};
