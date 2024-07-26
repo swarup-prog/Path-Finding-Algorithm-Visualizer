@@ -2,15 +2,30 @@ import Maze from "./components/Maze";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import Button from "./components/Button";
 import { useEffect, useState } from "react";
-import { setIsSetMode, setSetMode } from "./features/mazeState/mazeStateSlice";
+import {
+  clearMazeState,
+  setIsSetMode,
+  setSetMode,
+} from "./features/mazeState/mazeStateSlice";
 import Input from "./components/Input";
 import iniitalMaze from "./data/initialMaze";
-import { breadthFirstSearch } from "./functions";
+import { breadthFirstSearch, depthFirstSearch } from "./functions";
+import {
+  clearAlgorithmState,
+  setResult,
+} from "./features/algorithmState/algorithmStateSlice";
+import Dropdown from "./components/Dropdown";
 
 function App() {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string>("");
   const { start, end, isSetMode } = useAppSelector((state) => state.mazeState);
+  const { algorithm } = useAppSelector((state) => state.algorithmState);
+
+  const algorithms = [
+    { name: "Breadth First Search", value: "BFS" },
+    { name: "Depth First Search", value: "DFS" },
+  ];
 
   const handleSet = (type: string) => {
     setMessage(`Click on the cell to set ${type} point!`);
@@ -19,8 +34,19 @@ function App() {
   };
 
   const handleSearch = () => {
-    const result = breadthFirstSearch(iniitalMaze, start, end);
+    if (!algorithm) {
+      setMessage("Please select an algorithm!");
+      return;
+    }
+
+    const result = depthFirstSearch(iniitalMaze, start, end);
     console.log("Result: ", JSON.stringify(result));
+    dispatch(setResult(result));
+  };
+
+  const handleReset = () => {
+    dispatch(clearAlgorithmState());
+    dispatch(clearMazeState());
   };
 
   useEffect(() => {
@@ -31,20 +57,30 @@ function App() {
     <div className="flex flex-col justify-center items-center gap-10 ">
       <h1 className="font-bold text-3xl">Path Finding Algorithm Visualizer</h1>
       <section className="flex flex-col items-center justify-center gap-3">
-        <div className="flex gap-3">
-          <Input disabled label="Start:" value={String(start)} />
-          <Input disabled label="End:" value={String(end)} />
+        <div className="flex flex-col gap-5 mb-5">
+          <div className="flex gap-3">
+            <Input disabled label="Start:" value={String(start)} />
+            <Input disabled label="End:" value={String(end)} />
+          </div>
+          <div>
+            <Dropdown label="Algorithm" items={algorithms} />
+          </div>
         </div>
         <div className="flex gap-3">
-          <Button title="Set Start" onClick={() => handleSet("start")} />
+          <Button
+            title="Set Start"
+            color="green"
+            onClick={() => handleSet("start")}
+          />
           <Button title="Set End" onClick={() => handleSet("end")} />
           <Button
             color="green"
-            title="Test"
+            title="Search"
             onClick={() => {
               handleSearch();
             }}
           />
+          <Button title="Reset" color="red" onClick={() => handleReset()} />
         </div>
       </section>
       <section>
