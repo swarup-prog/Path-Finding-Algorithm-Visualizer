@@ -2,18 +2,19 @@ import { Maze, Cell } from "../types";
 
 export const getNeighbours = (maze: Maze, cell: Cell) => {
   const [i, j] = cell;
-  const rows = [i, i - 1, i + 1];
-  const cols = [j, j - 1, j + 1];
+  const potentialNeighbours = [
+    [i - 1, j], // up
+    [i + 1, j], // down
+    [i, j - 1], // left
+    [i, j + 1], // right
+  ];
 
   let neighbours: Cell[] = [];
 
-  for (let col of cols) {
-    for (let row of rows) {
-      if (row >= 0 && col >= 0 && row < maze.length && row !== col) {
-        if (row !== i || col !== j) {
-          if (maze[row][col] === 0) continue;
-          neighbours.push([row, col]);
-        }
+  for (let [row, col] of potentialNeighbours) {
+    if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length) {
+      if (maze[row][col] !== 0) {
+        neighbours.push([row, col]);
       }
     }
   }
